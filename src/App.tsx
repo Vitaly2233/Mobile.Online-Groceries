@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as React from 'react';
 import {useEffect} from 'react';
-import {StatusBar} from 'react-native';
+import {Platform, StatusBar} from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import LogIn from './screens/LogIn';
@@ -17,17 +17,12 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const themes = require('./themes.json');
-  EStyleSheet.build(themes.light);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     StatusBar.setHidden(true);
-  //     RNBootSplash.hide({fade: true});
-  //   }, 1000);
-  // }, []);
+  EStyleSheet.build(Platform.OS === 'android' ? themes.android : themes.ios);
+
   return (
     <NavigationContainer onReady={() => RNBootSplash.hide({fade: true})}>
       <Stack.Navigator
-        initialRouteName={'Onbording'}
+        initialRouteName={'LogIn'}
         screenOptions={{headerShown: false}}>
         <Stack.Screen
           name="Home"

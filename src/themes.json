@@ -1,5 +1,27 @@
 {
-  "light": {
-    "$lightGreen": "#53B175"
+  "android": {
+    "$backgroundColor": "#fdfdfd",
+    "$lightGreen": "#53B175",
+    "$mainDark": "#181725",
+    "$dark": "#030303",
+    "$lightGray": "#FCFCFC",
+    "$gray": "#7C7C7C",
+    "$lineColor": "#E2E2E2",
+    "$paddingHorizontal": 30,
+    "$regularFont": "Gilroy-Regular",
+    "$boldFont": "Gilroy-Bold",
+    "$mediumFont": "Gilroy-Medium"
+  },
+  "ios": {
+    "$lightGreen": "#53B175",
+    "$mainDark": "#181725",
+    "$dark": "#030303",
+    "$lightGray": "#FCFCFC",
+    "$gray": "#7C7C7C",
+    "$lineColor": "#E2E2E2",
+    "$paddingHorizontal": 30,
+    "$regularFont": "Gilroy-Regular",
+    "$boldFont": "Gilroy-Bold",
+    "$mediumFont": "Gilroy-Medium"
   }
 }
