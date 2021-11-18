@@ -6,6 +6,11 @@ import Check from './Check';
 import LogoName from './LogoName';
 import Search from './Search';
 import {IconProps} from '../../models/Icon';
+import Shop from './Shop';
+import Explore from './Explore';
+import Cart from './Cart';
+import Favourite from './Favourite';
+import Account from './Account';
 
 const Icons = (props: IconProps) => {
   const {iconName} = props;
@@ -23,6 +28,16 @@ const Icons = (props: IconProps) => {
       return <LogoName {...props} />;
     case 'search':
       return <Search {...props} />;
+    case 'Shop':
+      return <Shop {...props} />;
+    case 'Explore':
+      return <Explore {...props} />;
+    case 'Cart':
+      return <Cart {...props} />;
+    case 'Favourite':
+      return <Favourite {...props} />;
+    case 'Account':
+      return <Account {...props} />;
     default:
       return null;
   }

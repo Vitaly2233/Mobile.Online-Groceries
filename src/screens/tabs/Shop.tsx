@@ -10,7 +10,7 @@ export default function Shop() {
       <Logo />
       <Input
         iconName={'search'}
-        style={styles.iconStyles}
+        style={styles.input}
         containerStyles={styles.inputWrapper}
         placeholder={'Serch Store'}
         placeholderTextColor={styles.placeholderColor.color}
@@ -36,9 +36,10 @@ const styles = EStyleSheet.create({
     borderRadius: 20,
   },
 
-  iconStyles: {
-fontSize: 14
+  input: {
+    paddingLeft: 10,
+    fontSize: 14,
   },
 
-  placeholderColor: {color:'$gray'},
+  placeholderColor: {color: '$gray'},
 });
