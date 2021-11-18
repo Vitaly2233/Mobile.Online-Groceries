@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Svg, {Path} from 'react-native-svg';
-import {IconProps} from '../../interfaces/IconProps';
+import {IconProps} from '../../models/Icon';
 
 function Carrot({iconHeight = 80, iconWidth = 60}: IconProps) {
   return (

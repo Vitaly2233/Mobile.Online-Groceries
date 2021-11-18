@@ -4,11 +4,11 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 // components
 import Btn from '../components/Btn';
-import Icon from '../components/icons/Icon';
+import Icon from '../components/icons/Icons';
 
 const man = require('../assets/img/Man.png');
 
-const Onbording = ({navigation, route}) => {
+const Onbording = () => {
   return (
     <ImageBackground style={styles.image} source={man} resizeMode="cover">
       <StatusBar translucent backgroundColor="transparent" />

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Svg, {SvgProps, Path} from 'react-native-svg';
-import {IconProps} from '../../interfaces/IconProps';
+import {IconProps} from '../../models/Icon';
 
 function ColorCarrot({iconHeight = 80, iconWidth = 60}: IconProps) {
   return (
-    <Svg width={iconWidth} height={iconHeight} fill="none">
+    <Svg width={iconWidth} height={iconHeight} fill="none" viewBox="0 0 49 57">
       <Path
         fillRule="evenodd"
         clipRule="evenodd"

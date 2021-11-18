@@ -8,6 +8,7 @@
     "$gray": "#7C7C7C",
     "$lineColor": "#E2E2E2",
     "$paddingHorizontal": 30,
+    "$paddingTabs": 25,
     "$regularFont": "Gilroy-Regular",
     "$boldFont": "Gilroy-Bold",
     "$mediumFont": "Gilroy-Medium"

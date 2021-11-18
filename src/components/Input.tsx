@@ -1,33 +1,32 @@
 import React from 'react';
-import {TextInput, View} from 'react-native';
+import {TextInput, TextInputProps, View, ViewProps} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import {IconProps} from '../models/Icon';
+import Icons from './icons/Icons';
+
+interface IInput extends TextInputProps, IconProps {
+  iconStyles?: any;
+  containerStyles?: any;
+}
 
 const Input = ({
-  placeholder,
-  onInputChange,
-  onBlur,
-  value,
-  style,
-  multiline = false,
-}: {
-  placeholder?: string;
-  onInputChange?: any;
-  onBlur?: any;
-  value?: string;
-  style?: any;
-  multiline?: boolean;
-}) => {
+  iconStyles,
+  containerStyles,
+  onChangeText,
+  ...props
+}: IInput) => {
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, containerStyles]}>
       <TextInput
-        onBlur={onBlur}
-        value={value}
-        onChangeText={onInputChange}
-        style={[styles.input, {style}]}
-        placeholder={placeholder}
-        placeholderTextColor={'grey'}
-        multiline={multiline}
-        textAlignVertical={multiline ? 'top' : 'center'}
+        style={[styles.input, props.style]}
+        onChangeText={onChangeText}
+        placeholder={props.placeholder}
+        placeholderTextColor={props.placeholderTextColor}
+      />
+      <Icons
+        iconName={props.iconName}
+        iconHeight={props.iconHeight}
+        iconWidth={props.iconWidth}
       />
     </View>
   );
@@ -37,9 +36,13 @@ const styles = EStyleSheet.create({
   wrapper: {
     borderBottomWidth: 1,
     borderColor: '$dark',
-    justifyContent: 'center'
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   input: {
+    paddingHorizontal: 0,
+    height: 40,
+    flex: 1,
     color: '$dark',
     fontSize: 18,
     fontFamily: '$mediumFont',

@@ -11,11 +11,11 @@ const Tab = createBottomTabNavigator();
 export default function Home() {
   return (
     <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen name="shop" component={Shop} />
-      <Tab.Screen name="explore" component={Explore} />
-      <Tab.Screen name="cart" component={Cart} />
-      <Tab.Screen name="favorite" component={Favorite} />
-      <Tab.Screen name="account" component={Account} />
+      <Tab.Screen name="Shop" component={Shop} />
+      <Tab.Screen name="Explore" component={Explore} />
+      <Tab.Screen name="Cart" component={Cart} />
+      <Tab.Screen name="Favorite" component={Favorite} />
+      <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
   );
 }
