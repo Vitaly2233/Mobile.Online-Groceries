@@ -21,6 +21,7 @@
     "react": "17.0.2",
     "react-hook-form": "^7.19.5",
     "react-native": "0.66.3",
+    "react-native-animated-pagination-dots": "^0.1.72",
     "react-native-bootsplash": "3.2.6",
     "react-native-extended-stylesheet": "^0.12.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",

@@ -3,8 +3,7 @@ import {User} from '../models';
 
 class UserStore {
   @observable user?: User;
-  @observable isSignedIn: boolean = false;
-  @observable token: string | undefined ;
+  @observable token: string | undefined;
 
   constructor() {
     makeAutoObservable(this);
@@ -17,10 +16,6 @@ class UserStore {
   @action setToken = async (token: string) => {
     this.token = token;
   };
-
-  @action toggleIsSignedIn() {
-    this.isSignedIn = !this.isSignedIn;
-  }
 }
 
 export default new UserStore();

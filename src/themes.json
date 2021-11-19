@@ -9,6 +9,7 @@
     "$lineColor": "#E2E2E2",
     "$paddingHorizontal": 30,
     "$paddingTabs": 25,
+    "$grayBackground": "#F2F3F2",
     "$regularFont": "Gilroy-Regular",
     "$boldFont": "Gilroy-Bold",
     "$mediumFont": "Gilroy-Medium"

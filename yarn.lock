@@ -6095,6 +6095,13 @@
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   "version" "17.0.2"
 
+"react-native-animated-pagination-dots@^0.1.72":
+  "integrity" "sha512-6hPixzoXbrtoF9HxUKKBQSSmjl6HctarjKMY4WCuc3U/RCsUQTCPTdj2ymq0aYB3cj3mgV6rcvQhMLvO/J/nrA=="
+  "resolved" "https://registry.npmjs.org/react-native-animated-pagination-dots/-/react-native-animated-pagination-dots-0.1.72.tgz"
+  "version" "0.1.72"
+  dependencies:
+    "react-native-svg" "^12.1.0"
+
 "react-native-bootsplash@3.2.6":
   "integrity" "sha512-zNEXIe2K1A06J45QOAg+OBo3wIyId9lZXOwITUcwNR2bQEg/3CO6uvcRB7MLuy2ct54R1PlbADHDZK/Ozt7mfA=="
   "resolved" "https://registry.npmjs.org/react-native-bootsplash/-/react-native-bootsplash-3.2.6.tgz"
@@ -6147,7 +6154,7 @@
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
 
-"react-native-svg@^12.1.1":
+"react-native-svg@^12.1.0", "react-native-svg@^12.1.1":
   "integrity" "sha512-NIAJ8jCnXGCqGWXkkJ1GTzO4a3Md5at5sagYV8Vh4MXYnL4z5Rh428Wahjhh+LIjx40EE5xM5YtwyJBqOIba2Q=="
   "resolved" "https://registry.npmjs.org/react-native-svg/-/react-native-svg-12.1.1.tgz"
   "version" "12.1.1"

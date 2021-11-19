@@ -14,10 +14,12 @@ export const login = async (email: string, password: string) => {
     console.log(res.data);
 
     if (res && res.status === 201) {
+      const token = res.data.access_token;
       console.log(res.data);
 
-      UserStore.setToken(res.data.access_token);
-      await AsyncStorage.setItem('token', res.data.access_token);
+      UserStore.setToken(token);
+      api.defaults.headers.common = {Authorization: `Bearer ${token}`};
+      await AsyncStorage.setItem('token', token);
     }
   } catch (e) {
     console.log(e);

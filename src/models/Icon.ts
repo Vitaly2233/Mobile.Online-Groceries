@@ -5,10 +5,20 @@ export type IconName =
   | 'hide'
   | 'check'
   | 'logoName'
-  | 'search';
+  | 'search'
+  | 'plus'
+  | 'minus'
+  | 'arrow'
+  | 'upload'
+  | 'Shop'
+  | 'Explore'
+  | 'Cart'
+  | 'Favourite'
+  | 'Account';
 
 export interface IconProps {
   iconName?: IconName;
   iconWidth?: number;
   iconHeight?: number;
+  fill?: string;
 }

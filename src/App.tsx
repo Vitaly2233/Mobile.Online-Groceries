@@ -1,10 +1,9 @@
 import {NavigationContainer, useFocusEffect} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {toJS} from 'mobx';
 import {observer} from 'mobx-react-lite';
 import * as React from 'react';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {Platform, StatusBar} from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -13,54 +12,55 @@ import Onbording from './screens/Onbording';
 import SignIn from './screens/SignIn';
 import Home from './screens/tabs';
 import {useStore} from './store';
+import {api} from './config';
+import ProductDetail from './screens/tabs/ProductDetail';
 
 const Stack = createNativeStackNavigator();
 
-StatusBar.setTranslucent(true)
-StatusBar.setBackgroundColor('transparent')
-StatusBar.setBarStyle('dark-content')
+StatusBar.setTranslucent(true);
+StatusBar.setBackgroundColor('transparent');
+StatusBar.setBarStyle('dark-content');
 
 const App = observer(() => {
-  const {userStore} = useStore();
-  const isSignedIn = toJS(userStore.isSignedIn);
-  const {token, setToken} = userStore;
+  console.log('here');
+
   const themes = require('./themes.json');
   EStyleSheet.build(Platform.OS === 'android' ? themes.android : themes.ios);
+  const [isReady, setIsReady] = useState('');
+
+  const {userStore} = useStore();
+  const {token, setToken} = userStore;
 
   const init = async () => {
     const token = await AsyncStorage.getItem('token');
     if (token) {
       setToken(token);
+      api.defaults.headers.common = {Authorization: `Bearer ${token}`};
+      setIsReady('Home');
     }
+    RNBootSplash.hide({fade: true});
   };
 
   useEffect(() => {
     init();
   });
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     let isActive = true;
-
-  //     init();
-
-  //     return () => {
-  //       isActive = false;
-  //     };
-  //   }, []),
-  // );
-  
   return (
-    <NavigationContainer onReady={() => RNBootSplash.hide({fade: true})}>
+    <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={'LogIn'}
+        initialRouteName={isReady}
         screenOptions={{
-          animation: 'slide_from_left',
+          animation: 'slide_from_right',
           headerShown: false,
         }}>
         {token ? (
           <>
             <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen
+              options={{animation: 'slide_from_bottom'}}
+              name="ProductDetail"
+              component={ProductDetail}
+            />
           </>
         ) : (
           <>
