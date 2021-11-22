@@ -15,7 +15,6 @@ export const login = async (email: string, password: string) => {
 
     if (res && res.status === 201) {
       const token = res.data.access_token;
-      console.log(res.data);
 
       UserStore.setToken(token);
       api.defaults.headers.common = {Authorization: `Bearer ${token}`};

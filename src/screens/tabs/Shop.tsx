@@ -44,6 +44,7 @@ const styles = EStyleSheet.create({
     paddingHorizontal: 10,
     marginVertical: 20,
     flexDirection: 'row-reverse',
+    justifyContent: 'flex-end',
     marginHorizontal: '$paddingTabs',
     borderBottomWidth: 0,
     backgroundColor: '$grayBackground',

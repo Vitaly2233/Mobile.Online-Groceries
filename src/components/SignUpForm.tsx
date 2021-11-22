@@ -20,8 +20,6 @@ const SignUpForm = () => {
 
   const [secureEntry, setSecureEntry] = useState(true);
 
-  console.log(errors);
-
   const handleError = () => {
     console.log('handle');
   };
@@ -40,7 +38,7 @@ const SignUpForm = () => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
-            onInputChange={onChange}
+            onChange={onChange}
             onBlur={onBlur}
             value={value}
             placeholder={''}
@@ -58,7 +56,7 @@ const SignUpForm = () => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
-            onInputChange={onChange}
+            onChange={onChange}
             onBlur={onBlur}
             value={value}
             placeholder={''}
@@ -81,7 +79,7 @@ const SignUpForm = () => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
-            onInputChange={onChange}
+            onChange={onChange}
             onBlur={onBlur}
             value={value}
             placeholder={''}

@@ -1,8 +1,8 @@
 import React from 'react';
-import Svg, { Path } from 'react-native-svg';
+import Svg, {Path} from 'react-native-svg';
 import {IconProps} from '../../models/Icon';
 
-export default function Minus({iconHeight, iconWidth}: IconProps) {
+export default function Minus({iconHeight = 3, iconWidth = 17}: IconProps) {
   return (
     <Svg width={iconWidth} height={iconHeight} viewBox="0 0 18 3" fill="none">
       <Path

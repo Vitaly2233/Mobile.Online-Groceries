@@ -22,8 +22,6 @@ StatusBar.setBackgroundColor('transparent');
 StatusBar.setBarStyle('dark-content');
 
 const App = observer(() => {
-  console.log('here');
-
   const themes = require('./themes.json');
   EStyleSheet.build(Platform.OS === 'android' ? themes.android : themes.ios);
   const [isReady, setIsReady] = useState('');

@@ -12,16 +12,15 @@ interface IInput extends TextInputProps, IconProps {
 const Input = ({
   iconStyles,
   containerStyles,
-  onChangeText,
   ...props
 }: IInput) => {
   return (
     <View style={[styles.wrapper, containerStyles]}>
       <TextInput
         style={[styles.input, props.style]}
-        onChangeText={onChangeText}
         placeholder={props.placeholder}
         placeholderTextColor={props.placeholderTextColor}
+        {...props}
       />
       <Icons
         iconName={props.iconName}

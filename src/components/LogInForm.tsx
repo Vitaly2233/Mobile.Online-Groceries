@@ -8,7 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import {observer} from 'mobx-react';
 
 import {login} from '../actions/user';
-import { User } from '../models';
+import {User} from '../models';
 
 const LogInForm = observer(() => {
   const navigation = useNavigation();
@@ -16,8 +16,11 @@ const LogInForm = observer(() => {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm();
-
+    getValues,
+  } = useForm({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+  });
   const [secureEntry, setSecureEntry] = useState(true);
 
   const handleLogin = async (data: User) => {
@@ -39,10 +42,17 @@ const LogInForm = observer(() => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
-            onChange={onChange}
+            onChangeText={onChange}
             onBlur={onBlur}
             value={value}
             placeholder={''}
+            iconName={
+              !errors.email &&
+              getValues('email') &&
+              getValues('email').length > 0
+                ? 'check'
+                : null
+            }
           />
         )}
         name="email"
@@ -55,7 +65,7 @@ const LogInForm = observer(() => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
-            onChange={onChange}
+            onChangeText={onChange}
             onBlur={onBlur}
             value={value}
             placeholder={''}

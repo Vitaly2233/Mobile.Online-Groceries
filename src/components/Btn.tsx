@@ -2,10 +2,10 @@ import React from 'react';
 import {TouchableOpacity, Text} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
-export default function Btn({text, onClick, buttonStyle}: any) {
+export default function Btn({text, onClick, buttonStyle, textStyle}: any) {
   return (
     <TouchableOpacity style={[styles.container, buttonStyle]} onPress={onClick}>
-      <Text style={styles.text}>{text}</Text>
+      <Text style={[styles.text, textStyle]}>{text}</Text>
     </TouchableOpacity>
   );
 }
