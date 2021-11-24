@@ -2,12 +2,14 @@ import {createContext, useContext} from 'react';
 import {configure, observable} from 'mobx';
 import UserStore from './UserStore';
 import ProductStore from './ProductStore';
+import OfferStore from './OfferStore';
 
 configure({enforceActions: 'observed'});
 
 class RootStore {
   @observable userStore = UserStore;
   @observable productStore = ProductStore;
+  @observable offerStore = OfferStore;
 }
 
 const rootStore = new RootStore();

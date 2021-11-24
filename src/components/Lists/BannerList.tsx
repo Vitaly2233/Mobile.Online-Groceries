@@ -1,11 +1,11 @@
 import React, {useRef, useState} from 'react';
-import {Animated, Dimensions, FlatList, Image, View} from 'react-native';
+import {Animated, Dimensions, Image, View} from 'react-native';
 import {ExpandingDot} from 'react-native-animated-pagination-dots';
 import EStyleSheet from 'react-native-extended-stylesheet';
 
 const BannerList = () => {
   const testData = [1, 2, 3, 4];
-  const banner = require('../assets/img/Banner.png');
+  const banner = require('../../assets/img/Banner.png');
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
 

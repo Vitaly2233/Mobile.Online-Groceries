@@ -7,13 +7,10 @@ import Icons from './icons/Icons';
 interface IInput extends TextInputProps, IconProps {
   iconStyles?: any;
   containerStyles?: any;
+  ref?: any;
 }
 
-const Input = ({
-  iconStyles,
-  containerStyles,
-  ...props
-}: IInput) => {
+const Input = ({iconStyles, containerStyles, ...props}: IInput) => {
   return (
     <View style={[styles.wrapper, containerStyles]}>
       <TextInput
@@ -39,9 +36,8 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    paddingHorizontal: 0,
-    height: 40,
     flex: 1,
+    height: 40,
     color: '$dark',
     fontSize: 18,
     fontFamily: '$mediumFont',

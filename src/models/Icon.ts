@@ -14,7 +14,8 @@ export type IconName =
   | 'Explore'
   | 'Cart'
   | 'Favourite'
-  | 'Account';
+  | 'Account'
+  | 'filter';
 
 export interface IconProps {
   iconName?: IconName;

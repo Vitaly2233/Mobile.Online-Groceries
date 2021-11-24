@@ -20,8 +20,8 @@ const SignUpForm = () => {
 
   const [secureEntry, setSecureEntry] = useState(true);
 
-  const handleError = () => {
-    console.log('handle');
+  const handleSubbmit = () => {
+    console.log('submit');
   };
 
   return (
@@ -95,7 +95,7 @@ const SignUpForm = () => {
       </Text>
       <Btn
         text={'Sign Up'}
-        onClick={handleSubmit(handleError, handleError)}
+        onClick={handleSubmit(handleSubbmit)}
         buttonStyle={styles.loginBtn}
       />
       <View style={styles.buttomTextWrapper}>

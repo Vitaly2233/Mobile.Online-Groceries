@@ -1,16 +1,20 @@
 import {observer} from 'mobx-react-lite';
-import React, {useEffect} from 'react';
-import {View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, ScrollView, View} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {ProductsByType} from '../../actions/products';
-import BannerList from '../../components/BannerList';
-import Input from '../../components/Input';
+import {getAllProducts} from '../../actions/products';
+import BannerList from '../../components/Lists/BannerList';
+import GroceriesList from '../../components/Lists/GroceriesList';
+import ProductSectionList from '../../components/Lists/ProductSectionList';
 import Logo from '../../components/Logo';
-import ProductSectionList from '../../components/ProductSectionList';
+import Search from '../../components/Search';
 
 const Shop = observer(() => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const fetchProducts = async () => {
-    await ProductsByType('Exclusive Offer');
+    await getAllProducts();
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -18,45 +22,33 @@ const Shop = observer(() => {
   }, []);
 
   return (
-    <View style={styles.wrapper}>
+    <ScrollView style={styles.wrapper} showsVerticalScrollIndicator={false}>
       <Logo />
-      <Input
-        iconName={'search'}
-        style={styles.input}
-        containerStyles={styles.inputWrapper}
-        placeholder={'Serch Store'}
-        placeholderTextColor={styles.placeholderColor.color}
+      <Search
+        containerStyles={{marginHorizontal: EStyleSheet.value('$paddingTabs')}}
       />
-      <BannerList />
-      <ProductSectionList />
-    </View>
+      {isLoading ? (
+        <View style={{backgroundColor: 'red'}}>
+          <ActivityIndicator size="large" color="green" />
+        </View>
+      ) : (
+        <View>
+          <BannerList />
+          <ProductSectionList />
+          <GroceriesList />
+          <View style={{height: 100}} />
+        </View>
+      )}
+    </ScrollView>
   );
 });
 
 const styles = EStyleSheet.create({
   wrapper: {
     flex: 1,
-    paddingTop: 20,
+    paddingTop: 10,
     backgroundColor: '$backgroundColor',
   },
-  inputWrapper: {
-    height: 50,
-    paddingHorizontal: 10,
-    marginVertical: 20,
-    flexDirection: 'row-reverse',
-    justifyContent: 'flex-end',
-    marginHorizontal: '$paddingTabs',
-    borderBottomWidth: 0,
-    backgroundColor: '$grayBackground',
-    borderRadius: 20,
-  },
-
-  input: {
-    paddingLeft: 10,
-    fontSize: 14,
-  },
-
-  placeholderColor: {color: '$gray'},
 });
 
 export default Shop;

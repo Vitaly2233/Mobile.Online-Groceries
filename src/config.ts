@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 
-export const host = 'http://192.168.0.101:3028/';
+export const host = 'https://9ebc-217-115-97-48.ngrok.io/';
 
 export const api = axios.create({
   baseURL: host,

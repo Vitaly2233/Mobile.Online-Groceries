@@ -1,27 +1,83 @@
-import {useRoute} from '@react-navigation/core';
-import React from 'react';
-import {Dimensions, Image, StatusBar, Text, View} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation, useRoute} from '@react-navigation/core';
+import {observer} from 'mobx-react-lite';
+import React, {useState} from 'react';
+import {
+  Dimensions,
+  Image,
+  ScrollView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Btn from '../../components/Btn';
 import Icons from '../../components/icons/Icons';
+import ScaledItem from '../../components/ScaledItem';
 import {Product} from '../../models/Product';
 import {useStore} from '../../store';
 import Accordion from '../Accordion';
 
-const ProductDetail = () => {
-  const {productStore} = useStore();
+const ProductDetail = observer(() => {
+  const {productStore, offerStore: cartStore} = useStore();
   const route = useRoute();
+  const navigation = useNavigation();
+  const [count, setCount] = useState(1);
 
   const product = route.params?.product as Product;
   const picture = productStore.pictures[product._id];
 
-  const count = 1;
+  const handleMinusClick = () => {
+    if (count === 1) return;
+    else setCount(count - 1);
+  };
+
+  const handlePlusClick = () => {
+    setCount(count + 1);
+  };
+
+  const handleAddToBacket = () => {
+    cartStore.setChoosenProducts(product._id, count);
+    setCount(1);
+  };
+
+  const handleFavoriteClick = async () => {
+    if (productStore.favorite.includes(product._id)) {
+      productStore.setFavorite([productStore.favorite]);
+      await AsyncStorage.setItem(
+        'favorite',
+        JSON.stringify([productStore.favorite]),
+      );
+    } else {
+      productStore.setFavorite([productStore.favorite, product._id]);
+      await AsyncStorage.setItem(
+        'favorite',
+        JSON.stringify([productStore.favorite, product._id]),
+      );
+    }
+  };
+
+  let favoriteButtonColor = EStyleSheet.value('$gray');
+  if (productStore.favorite && productStore.favorite.includes(product._id)) {
+    favoriteButtonColor = EStyleSheet.value('red');
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.previewContainer}>
         <View style={styles.topIcons}>
-          <Icons iconName={'arrow'} />
+          <TouchableOpacity
+            style={{
+              height: 20,
+              width: 20,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onPress={() => navigation.goBack()}>
+            <Icons iconName={'arrow'} />
+          </TouchableOpacity>
           <Icons iconName={'upload'} />
         </View>
         <Image
@@ -37,43 +93,67 @@ const ProductDetail = () => {
           ]}
         />
       </View>
-      <View style={styles.infoWrapper}>
+      <ScrollView
+        style={styles.infoWrapper}
+        showsVerticalScrollIndicator={false}>
         <View style={styles.productInfo}>
-          <View style={styles.description}>
+          <View>
             <Text style={styles.name}>{product.name}</Text>
             <Text style={styles.characteristics}>
               {product.characteristics}
             </Text>
           </View>
-          <Icons iconName={'Favourite'} fill={EStyleSheet.value('$gray')} />
+          <ScaledItem onPress={handleFavoriteClick}>
+            <Icons iconName={'Favourite'} fill={favoriteButtonColor} />
+          </ScaledItem>
         </View>
         <View style={styles.cart}>
           <View style={styles.counterContainer}>
-            <Icons iconName={'minus'} />
+            <TouchableOpacity
+              style={{
+                height: 45,
+                width: 45,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              onPress={handleMinusClick}>
+              <Icons iconName={'minus'} />
+            </TouchableOpacity>
             <View style={styles.iconCounter}>
               <Text style={styles.countNumber}>{count}</Text>
             </View>
-            <Icons iconName={'plus'} fill={EStyleSheet.value('$lightGreen')} />
+            <TouchableOpacity
+              style={{
+                height: 45,
+                width: 45,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              onPress={handlePlusClick}>
+              <Icons
+                iconName={'plus'}
+                fill={EStyleSheet.value('$lightGreen')}
+              />
+            </TouchableOpacity>
           </View>
-          <Text style={styles.price}>${product.price}</Text>
+          <Text style={styles.price}>
+            ${(parseFloat(product.price) * count).toFixed(2)}
+          </Text>
         </View>
         <Accordion title={'Product Detail'}>{product.details}</Accordion>
         <Accordion title={'Nutritions'}>{product.details}</Accordion>
         <Accordion title={'Review'}>{product.details}</Accordion>
-      </View>
-      <Btn
-        text={'Add To Basket'}
-        textStyle={{color: '#FFF9FF'}}
-        buttonStyle={{
-          position: 'absolute',
-          bottom: 0,
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0,
-        }}
-      />
+        <View style={styles.buttomView}>
+          <Btn
+            onClick={handleAddToBacket}
+            text={'Add To Basket'}
+            textStyle={{color: '#FFF9FF'}}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
-};
+});
 
 const styles = EStyleSheet.create({
   container: {
@@ -83,12 +163,12 @@ const styles = EStyleSheet.create({
   previewContainer: {
     backgroundColor: '$grayBackground',
     paddingHorizontal: '$paddingTabs',
-    paddingTop: StatusBar.currentHeight,
+    paddingTop: 15,
+    paddingBottom: 30,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
   },
   topIcons: {
-    marginTop: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -96,14 +176,16 @@ const styles = EStyleSheet.create({
     height: 200,
     marginTop: 28,
   },
-  infoWrapper: {marginTop: 30, paddingHorizontal: '$paddingTabs'},
-
+  infoWrapper: {
+    flex: 1,
+    paddingHorizontal: '$paddingTabs',
+    paddingTop: 30,
+  },
   productInfo: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  description: {},
   name: {fontFamily: '$mediumFont', color: '$mainDark', fontSize: 24},
   characteristics: {fontFamily: '$regularFont', color: '$gray', fontSize: 16},
   cart: {
@@ -117,7 +199,6 @@ const styles = EStyleSheet.create({
     alignItems: 'center',
   },
   iconCounter: {
-    marginHorizontal: 20,
     borderWidth: 1,
     borderRadius: 17,
     borderColor: '$lineColor',
@@ -128,6 +209,9 @@ const styles = EStyleSheet.create({
   },
   countNumber: {color: '$mainDark', fontFamily: '$mediumFont', fontSize: 18},
   price: {color: '$mainDark', fontFamily: '$mediumFont', fontSize: 24},
+  buttomView: {
+    paddingBottom: 60,
+  },
 });
 
 export default ProductDetail;

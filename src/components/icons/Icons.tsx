@@ -15,6 +15,7 @@ import Plus from './Plus';
 import Arrow from './Arrow';
 import Upload from './Upload';
 import Minus from './Minus';
+import Filter from './Filter';
 
 const Icons = (props: IconProps) => {
   const {iconName} = props;
@@ -50,6 +51,8 @@ const Icons = (props: IconProps) => {
       return <Arrow {...props} />;
     case 'upload':
       return <Upload {...props} />;
+    case 'filter':
+      return <Filter {...props} />;
     default:
       return null;
   }

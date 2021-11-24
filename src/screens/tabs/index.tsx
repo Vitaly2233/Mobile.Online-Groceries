@@ -39,13 +39,28 @@ export default function Home() {
           );
         },
       })}>
-        
       <Tab.Screen name="Shop" component={Shop} />
-      <Tab.Screen name="Explore" component={Explore} />
+      <Tab.Screen
+        name="Explore"
+        component={Explore}
+        options={{
+          title: 'Find Products',
+          headerShown: true,
+          headerStyle: {
+            height: 80,
+            backgroundColor: EStyleSheet.value('$backgroundColor'),
+            elevation: 0,
+          },
+          headerTitleAlign: 'center',
+          headerTitleContainerStyle: {
+            justifyContent: 'center',
+          },
+        }}
+      />
       <Tab.Screen name="Cart" component={Cart} />
       <Tab.Screen name="Favourite" component={Favourite} />
-      <Tab.Screen name="Account" component={Account}/>
-    </Tab.Navigator >
+      <Tab.Screen name="Account" component={Account} />
+    </Tab.Navigator>
   );
 }
 

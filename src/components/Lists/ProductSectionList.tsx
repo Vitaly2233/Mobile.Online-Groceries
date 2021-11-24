@@ -1,17 +1,17 @@
-import {useRoute} from '@react-navigation/core';
-import {toJS} from 'mobx';
 import {observer} from 'mobx-react-lite';
 import React from 'react';
 import {FlatList, Text, View} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import {useStore} from '../store';
-import ProductCard from './ProductCard';
+import { useStore } from '../../store';
+import ProductCard from '../ProductCard';
 
 const ProductSectionList = observer(() => {
   const {productStore} = useStore();
 
   const products = productStore.products;
-  const productTypes = [...new Set(productStore.products.map(product => product.type))];
+  const productTypes = [
+    ...new Set(productStore.products.map(product => product.type)),
+  ];
 
   const renderCards = (data: any) => {
     const product = data.item;
@@ -45,11 +45,20 @@ const ProductSectionList = observer(() => {
           style={styles.cardContainer}
           horizontal={true}
           scrollEnabled={true}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     );
   };
-  return <FlatList renderItem={renderItem} data={productTypes} />;
+  return (
+    <FlatList
+      renderItem={renderItem}
+      data={productTypes}
+      showsHorizontalScrollIndicator={false}
+      showsVerticalScrollIndicator={false}
+    />
+  );
 });
 
 const styles = EStyleSheet.create({

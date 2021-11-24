@@ -3,6 +3,7 @@
     "experimentalDecorators": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
     "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "react",
