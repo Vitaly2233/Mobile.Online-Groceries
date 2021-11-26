@@ -16,6 +16,7 @@ import {api} from './config';
 import ProductDetail from './screens/tabs/ProductDetail';
 import Filters from './screens/tabs/Filter';
 import Beverages from './screens/tabs/Beverages';
+import OrderAccepted from './screens/OrderAccepted';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,12 +31,15 @@ const App = observer(() => {
 
   StatusBar.setBackgroundColor(EStyleSheet.value('$backgroundColor'));
 
-  const {userStore, productStore} = useStore();
+  const {userStore, productStore, offerStore} = useStore();
   const {token, setToken} = userStore;
 
   const init = async () => {
     const token = await AsyncStorage.getItem('token');
     const favorite = await AsyncStorage.getItem('favorite');
+    const offered = await AsyncStorage.getItem('offered');
+
+    if (offered) await offerStore.setOffered(JSON.parse(offered));
 
     if (favorite) {
       productStore.setFavorite(JSON.parse(favorite));
@@ -84,12 +88,17 @@ const App = observer(() => {
               name={'Beverages'}
               component={Beverages}
               options={{
-                presentation: 'modal',
+                // presentation: 'modal',
                 animation: 'slide_from_bottom',
                 headerShadowVisible: false,
                 headerShown: true,
                 headerTitleAlign: 'center',
               }}
+            />
+            <Stack.Screen
+              name={'OrderAccepted'}
+              component={OrderAccepted}
+              options={{headerShown: false, animation: 'simple_push'}}
             />
           </>
         ) : (

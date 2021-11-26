@@ -16,6 +16,9 @@ import Arrow from './Arrow';
 import Upload from './Upload';
 import Minus from './Minus';
 import Filter from './Filter';
+import Star from './Star';
+import XIcon from './XIcon';
+import Card from './Card';
 
 const Icons = (props: IconProps) => {
   const {iconName} = props;
@@ -53,6 +56,12 @@ const Icons = (props: IconProps) => {
       return <Upload {...props} />;
     case 'filter':
       return <Filter {...props} />;
+    case 'Star':
+      return <Star {...props} />;
+    case 'XIcon':
+      return <XIcon {...props} />;
+    case 'Card':
+      return <Card {...props} />;
     default:
       return null;
   }

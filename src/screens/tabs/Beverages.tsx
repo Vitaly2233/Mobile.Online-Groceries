@@ -20,9 +20,9 @@ const Beverages = () => {
   );
 
   return (
-    <ScrollView style={styles.container}>
-      <ProductList data={data} />
-    </ScrollView>
+    <View style={styles.container}>
+      <ProductList data={data} isBottomTabBar={false} />
+    </View>
   );
 };
 const styles = EStyleSheet.create({

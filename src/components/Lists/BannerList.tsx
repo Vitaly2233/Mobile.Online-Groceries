@@ -23,8 +23,8 @@ const BannerList = () => {
         source={banner}
         style={{
           height: 100,
-          width: Dimensions.get('screen').width - 50,
-          marginHorizontal: EStyleSheet.value('$paddingTabs'),
+          width: Dimensions.get('screen').width,
+          paddingHorizontal: EStyleSheet.value('$paddingTabs'),
         }}
       />
     );

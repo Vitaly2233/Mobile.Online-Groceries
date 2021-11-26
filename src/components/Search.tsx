@@ -23,13 +23,12 @@ const Search = ({containerStyles, ...props}: IInput) => {
 
 const styles = EStyleSheet.create({
   inputWrapper: {
-    flex: 1,
     height: 50,
+    width: '100%',
     paddingHorizontal: 10,
     marginVertical: 20,
     flexDirection: 'row-reverse',
     justifyContent: 'flex-end',
-    borderBottomWidth: 0,
     backgroundColor: '$grayBackground',
     borderRadius: 20,
   },

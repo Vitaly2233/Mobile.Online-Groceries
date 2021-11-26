@@ -15,7 +15,10 @@ export type IconName =
   | 'Cart'
   | 'Favourite'
   | 'Account'
-  | 'filter';
+  | 'filter'
+  | 'Star'
+  | 'XIcon'
+  | 'Card';
 
 export interface IconProps {
   iconName?: IconName;

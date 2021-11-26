@@ -1,25 +1,44 @@
 import CheckBox from '@react-native-community/checkbox';
+import {useNavigation} from '@react-navigation/core';
 import {observer} from 'mobx-react-lite';
 import React, {useState} from 'react';
 import {Text, View} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Btn from '../../components/Btn';
 import {useStore} from '../../store';
 
 const Filters = observer(() => {
+  const navigation = useNavigation();
   const {productStore} = useStore();
   const categories = productStore.categories;
+  const [filterChecked, setFilterChecked] = useState(
+    productStore.filters.categories,
+  );
+
+  const handleClick = () => {
+    productStore.setCategoryFilter(filterChecked);
+    navigation.goBack();
+  };
+
+  const onCheckboxChange = (val, category) => {
+    const categoryId = category._id;
+    if (val) {
+      setFilterChecked([...filterChecked, categoryId]);
+    } else {
+      const filtered = filterChecked.filter(item => item !== categoryId);
+      setFilterChecked(filtered);
+    }
+  };
 
   const mapCategories = category => {
-    const condition = productStore.filters.categories.includes(category._id);
-
+    const categoryId = category._id;
+    const condition = filterChecked.includes(categoryId);
     return (
-      <View style={styles.optionsContainer} key={category._id}>
+      <View style={styles.optionsContainer} key={categoryId}>
         <CheckBox
           value={condition ?? false}
           onValueChange={val => {
-            val
-              ? productStore.setCategoryFilter(category._id)
-              : productStore.deleteCategoryFilter(category._id);
+            onCheckboxChange(val, category);
           }}
         />
         <Text style={styles.optionText}>{category.name}</Text>
@@ -33,12 +52,17 @@ const Filters = observer(() => {
         <Text style={styles.sectionText}>Categories</Text>
         {categories.map(mapCategories)}
       </View>
+      <Btn
+        containerStyle={styles.btnContainer}
+        text={'Apply Filter'}
+        onClick={handleClick}
+      />
     </View>
   );
 });
 
 const styles = EStyleSheet.create({
-  container: {flex: 1, backgroundColor: '#fff'},
+  container: {flex: 1, backgroundColor: '#fff', paddingBottom: 25},
   content: {
     flex: 1,
     paddingTop: 30,
@@ -49,7 +73,7 @@ const styles = EStyleSheet.create({
   },
   sectionText: {
     fontSize: 24,
-    fontFamily: 'mediumFont',
+    fontFamily: '$boldFont',
     color: '$mainDark',
   },
   optionsContainer: {
@@ -59,8 +83,11 @@ const styles = EStyleSheet.create({
   },
   optionText: {
     color: '$mainDark',
-    fontFamily: 'mediumFont',
+    fontFamily: '$mediumFont',
     fontSize: 16,
+  },
+  btnContainer: {
+    paddingHorizontal: '$paddingTabs',
   },
 });
 

@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {action, computed, makeAutoObservable, observable} from 'mobx';
 import {Pictures} from '../models/Pictures';
 import {Product} from '../models/Product';
@@ -5,7 +6,7 @@ import {Product} from '../models/Product';
 class ProductStore {
   @observable products: Product[] = [];
   @observable pictures: Pictures = {};
-  @observable favorite: any = [];
+  @observable favorite: any[] = [];
   @observable categories: {name: string; _id: string}[] = [];
   @observable filters: {searchInput: string; categories: string[]} = {
     searchInput: '',
@@ -20,12 +21,26 @@ class ProductStore {
     this.products = products;
   };
 
-  @action setPictures = (pictures: Pictures) => {
-    this.pictures = {...this.pictures, ...pictures};
+  @action setPictures = (productId: string, base64Image: string) => {
+    this.pictures = {...this.pictures, [productId]: base64Image};
   };
 
   @action setFavorite = (favorite: any[]) => {
     this.favorite = favorite;
+  };
+
+  @action deleteFavorite = async (productId: string) => {
+    const index = this.favorite.findIndex(favorite => favorite === productId);
+    this.favorite.splice(index, 1);
+    await AsyncStorage.setItem('favorite', JSON.stringify([this.favorite]));
+  };
+
+  @action addFavorite = async (productId: string) => {
+    this.favorite.push(productId);
+    await AsyncStorage.setItem(
+      'favorite',
+      JSON.stringify([this.favorite, productId]),
+    );
   };
 
   @action setCategories = (categories: {name: string; _id: string}[]) => {
@@ -36,15 +51,8 @@ class ProductStore {
     this.filters.searchInput = text;
   };
 
-  @action setCategoryFilter = (categoryName: string) => {
-    this.filters.categories.push(categoryName);
-  };
-
-  @action deleteCategoryFilter = (categoryId: string) => {
-    const index = this.filters.categories.findIndex(
-      category => category === categoryId,
-    );
-    this.filters.categories.splice(index, 1);
+  @action setCategoryFilter = (categoryFilter: string[]) => {
+    this.filters.categories = categoryFilter;
   };
 
   @computed get filterProducts() {
@@ -63,6 +71,10 @@ class ProductStore {
     }
 
     return res;
+  }
+
+  @computed get favoriteProducts() {
+    return this.products.filter(product => this.favorite.includes(product._id));
   }
 }
 

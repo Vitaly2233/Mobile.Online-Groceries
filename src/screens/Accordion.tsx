@@ -76,8 +76,10 @@ const Accordion: React.FC<Data> = ({title, informationItem, children}: any) => {
     <>
       <TouchableWithoutFeedback onPress={onClick}>
         <View style={styles.rowContainer}>
-          <Text style={styles.title}>{title}</Text>
-          {informationItem}
+          <View style={styles.description}>
+            <Text style={styles.title}>{title}</Text>
+            {informationItem}
+          </View>
           <Animated.View style={animatedStyle}>
             <Icons iconName={'arrow'} />
           </Animated.View>
@@ -112,6 +114,13 @@ const styles = EStyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  description: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingRight: 20,
   },
   title: {
     color: '$mainDark',

@@ -79,7 +79,7 @@ const LogInForm = observer(() => {
       <Btn
         text={'Log In'}
         onClick={handleSubmit(handleLogin)}
-        buttonStyle={styles.loginBtn}
+        containerStyle={styles.loginBtn}
       />
       <View style={styles.buttomTextWrapper}>
         <Text style={styles.bottomText}>Don't hane an account? </Text>

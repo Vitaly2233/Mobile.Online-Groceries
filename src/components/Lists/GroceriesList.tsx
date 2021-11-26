@@ -32,7 +32,7 @@ const GroceriesList = () => {
   };
 
   return (
-    <View style={{marginVertical: 30}}>
+    <View style={{marginTop: 30}}>
       <Text style={styles.categoryText}>Groceries</Text>
       <FlatList
         horizontal

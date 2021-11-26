@@ -1,6 +1,7 @@
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import {observer} from 'mobx-react-lite';
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, ScrollView, View} from 'react-native';
+import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {getAllProducts} from '../../actions/products';
 import BannerList from '../../components/Lists/BannerList';
@@ -22,32 +23,36 @@ const Shop = observer(() => {
   }, []);
 
   return (
-    <ScrollView style={styles.wrapper} showsVerticalScrollIndicator={false}>
-      <Logo />
-      <Search
-        containerStyles={{marginHorizontal: EStyleSheet.value('$paddingTabs')}}
-      />
+    <View style={[styles.wrapper, {paddingBottom: useBottomTabBarHeight()}]}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Logo />
+        <View style={{paddingHorizontal: EStyleSheet.value('$paddingTabs')}}>
+          <Search />
+        </View>
+
+        {!isLoading ? (
+          <>
+            <BannerList />
+            <ProductSectionList />
+            <GroceriesList />
+          </>
+        ) : null}
+      </ScrollView>
       {isLoading ? (
-        <View style={{backgroundColor: 'red'}}>
+        <View style={{flex: 1}}>
           <ActivityIndicator size="large" color="green" />
         </View>
-      ) : (
-        <View>
-          <BannerList />
-          <ProductSectionList />
-          <GroceriesList />
-          <View style={{height: 100}} />
-        </View>
-      )}
-    </ScrollView>
+      ) : null}
+    </View>
   );
 });
 
 const styles = EStyleSheet.create({
   wrapper: {
-    flex: 1,
     paddingTop: 10,
+    flex: 1,
     backgroundColor: '$backgroundColor',
+    paddingBottom: 100,
   },
 });
 

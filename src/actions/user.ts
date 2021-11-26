@@ -24,3 +24,14 @@ export const login = async (email: string, password: string) => {
     console.log(e);
   }
 };
+
+export const fetchUser = async () => {
+  try {
+    const res = await api.get('user');
+    if (res && res.status === 200) {
+      UserStore.setUser(res.data);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};

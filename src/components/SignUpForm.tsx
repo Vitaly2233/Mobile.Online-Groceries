@@ -96,7 +96,7 @@ const SignUpForm = () => {
       <Btn
         text={'Sign Up'}
         onClick={handleSubmit(handleSubbmit)}
-        buttonStyle={styles.loginBtn}
+        containerStyle={styles.loginBtn}
       />
       <View style={styles.buttomTextWrapper}>
         <Text style={styles.bottomText}>Already have an account? </Text>

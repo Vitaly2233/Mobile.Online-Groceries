@@ -5,39 +5,27 @@ import {IconProps} from '../models/Icon';
 import Icons from './icons/Icons';
 
 interface IInput extends TextInputProps, IconProps {
-  iconStyles?: any;
   containerStyles?: any;
   ref?: any;
 }
 
-const Input = ({iconStyles, containerStyles, ...props}: IInput) => {
+const Input = ({containerStyles, style, ...props}: IInput) => {
   return (
     <View style={[styles.wrapper, containerStyles]}>
-      <TextInput
-        style={[styles.input, props.style]}
-        placeholder={props.placeholder}
-        placeholderTextColor={props.placeholderTextColor}
-        {...props}
-      />
-      <Icons
-        iconName={props.iconName}
-        iconHeight={props.iconHeight}
-        iconWidth={props.iconWidth}
-      />
+      <TextInput style={[styles.input, style]} {...props} />
+      <Icons {...props} />
     </View>
   );
 };
 
 const styles = EStyleSheet.create({
   wrapper: {
-    borderBottomWidth: 1,
-    borderColor: '$dark',
     flexDirection: 'row',
     alignItems: 'center',
   },
   input: {
     flex: 1,
-    height: 40,
+    height: '100%',
     color: '$dark',
     fontSize: 18,
     fontFamily: '$mediumFont',

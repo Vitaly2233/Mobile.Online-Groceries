@@ -13,7 +13,7 @@ class UserStore {
     this.user = user;
   };
 
-  @action setToken = async (token: string) => {
+  @action setToken = async (token: string | undefined) => {
     this.token = token;
   };
 }

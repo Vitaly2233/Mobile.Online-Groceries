@@ -55,19 +55,21 @@ const Explore = observer(() => {
       <View style={styles.container}>
         <View style={styles.topBar}>
           <Search
-            containerStyles={{marginLeft: 20}}
             onFocus={handleOnFocus}
             onChangeText={handleTextChange}
             autoFocus={false}
           />
           {isProductShown ? (
             <TouchableOpacity onPress={() => navigation.navigate('Filters')}>
-              <Icons iconName={'filter'} iconHeight={30} iconWidth={30} />
+              <Icons iconName={'filter'} iconHeight={25} iconWidth={25} />
             </TouchableOpacity>
           ) : null}
         </View>
         {isLoading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
+          <View
+            style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
         ) : isProductShown ? (
           <ProductList data={productData} />
         ) : (
@@ -83,11 +85,10 @@ const styles = EStyleSheet.create({
     flex: 1,
     backgroundColor: '$backgroundColor',
     paddingHorizontal: '$paddingTabs',
-    borderTopLeftRadius: 18,
   },
   topBar: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
   },
 });

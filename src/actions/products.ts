@@ -2,6 +2,7 @@ import {api} from '../config';
 import store from '../store';
 
 const ProductsStore = store.productStore;
+const OfferStore = store.offerStore;
 
 export const getBase64Icon = async (id: string) => {
   try {
@@ -32,10 +33,25 @@ export const getAllProducts = async () => {
       for (const product of products) {
         const icon = await getBase64Icon(product._id);
         if (!icon) return;
-        ProductsStore.setPictures({[product._id]: icon});
+        ProductsStore.setPictures(product._id, icon);
       }
     }
   } catch (e) {
     console.log(e);
   }
+};
+
+export const computeProducts = () => {
+  let res = {products: [], generalPrice: 0};
+  OfferStore.offered.forEach(offer => {
+    const offeredProduct = ProductsStore.products.find(
+      product => product.name === offer.productName,
+    );
+
+    if (!offeredProduct) return res;
+    res.generalPrice += parseFloat(offeredProduct.price) * offer.count;
+    res.products.push({...offeredProduct, count: offer.count});
+    return res;
+  });
+  return res;
 };

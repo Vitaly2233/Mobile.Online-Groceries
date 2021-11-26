@@ -46,19 +46,38 @@ export default function Home() {
         options={{
           title: 'Find Products',
           headerShown: true,
-          headerStyle: {
-            height: 80,
-            backgroundColor: EStyleSheet.value('$backgroundColor'),
-            elevation: 0,
-          },
+          headerStyle: [styles.header, {borderBottomWidth: 0}],
           headerTitleAlign: 'center',
           headerTitleContainerStyle: {
             justifyContent: 'center',
           },
         }}
       />
-      <Tab.Screen name="Cart" component={Cart} />
-      <Tab.Screen name="Favourite" component={Favourite} />
+      <Tab.Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          title: 'My Cart',
+          headerShown: true,
+          headerStyle: styles.header,
+          headerTitleAlign: 'center',
+          headerTitleContainerStyle: {
+            justifyContent: 'center',
+          },
+        }}
+      />
+      <Tab.Screen
+        name="Favourite"
+        component={Favourite}
+        options={{
+          headerShown: true,
+          headerStyle: styles.header,
+          headerTitleAlign: 'center',
+          headerTitleContainerStyle: {
+            justifyContent: 'center',
+          },
+        }}
+      />
       <Tab.Screen name="Account" component={Account} />
     </Tab.Navigator>
   );
@@ -87,6 +106,13 @@ const styles = EStyleSheet.create({
     shadowRadius: 16.0,
 
     elevation: 24,
+  },
+
+  header: {
+    height: 80,
+    backgroundColor: '$backgroundColor',
+    borderBottomWidth: 1,
+    elevation: 0,
   },
 
   labelText: {

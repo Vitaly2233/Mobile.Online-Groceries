@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation, useRoute} from '@react-navigation/core';
 import {observer} from 'mobx-react-lite';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -15,18 +15,23 @@ import {
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Btn from '../../components/Btn';
 import Icons from '../../components/icons/Icons';
+import ProductCounter from '../../components/ProductCounter';
 import ScaledItem from '../../components/ScaledItem';
+import Stars from '../../components/Stars';
 import {Product} from '../../models/Product';
 import {useStore} from '../../store';
 import Accordion from '../Accordion';
 
 const ProductDetail = observer(() => {
-  const {productStore, offerStore: cartStore} = useStore();
   const route = useRoute();
-  const navigation = useNavigation();
-  const [count, setCount] = useState(1);
-
   const product = route.params?.product as Product;
+
+  const {productStore, offerStore} = useStore();
+  const navigation = useNavigation();
+
+  const [count, setCount] = useState<number>(offerStore.getCount(product.name));
+
+  const isFavorite = productStore.favorite.includes(product._id);
   const picture = productStore.pictures[product._id];
 
   const handleMinusClick = () => {
@@ -39,42 +44,36 @@ const ProductDetail = observer(() => {
   };
 
   const handleAddToBacket = () => {
-    cartStore.setChoosenProducts(product._id, count);
-    setCount(1);
+    offerStore.addChoosenProduct(product.name, count);
   };
 
   const handleFavoriteClick = async () => {
-    if (productStore.favorite.includes(product._id)) {
-      productStore.setFavorite([productStore.favorite]);
-      await AsyncStorage.setItem(
-        'favorite',
-        JSON.stringify([productStore.favorite]),
-      );
+    if (isFavorite) {
+      await productStore.deleteFavorite(product._id);
     } else {
-      productStore.setFavorite([productStore.favorite, product._id]);
-      await AsyncStorage.setItem(
-        'favorite',
-        JSON.stringify([productStore.favorite, product._id]),
-      );
+      await productStore.addFavorite(product._id);
     }
   };
 
   let favoriteButtonColor = EStyleSheet.value('$gray');
-  if (productStore.favorite && productStore.favorite.includes(product._id)) {
-    favoriteButtonColor = EStyleSheet.value('red');
+  if (isFavorite) {
+    favoriteButtonColor = 'red';
   }
+
+  const imageStyle = [
+    styles.imageStyle,
+    {
+      width:
+        Dimensions.get('screen').width - EStyleSheet.value('$paddingTabs') * 2,
+    },
+  ];
 
   return (
     <View style={styles.container}>
       <View style={styles.previewContainer}>
         <View style={styles.topIcons}>
           <TouchableOpacity
-            style={{
-              height: 20,
-              width: 20,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+            style={styles.goBackBtn}
             onPress={() => navigation.goBack()}>
             <Icons iconName={'arrow'} />
           </TouchableOpacity>
@@ -83,14 +82,7 @@ const ProductDetail = observer(() => {
         <Image
           source={{uri: `data:image/jpeg;base64,${picture}`}}
           resizeMode={'contain'}
-          style={[
-            styles.imageStyle,
-            {
-              width:
-                Dimensions.get('screen').width -
-                EStyleSheet.value('$paddingTabs') * 2,
-            },
-          ]}
+          style={imageStyle}
         />
       </View>
       <ScrollView
@@ -109,40 +101,43 @@ const ProductDetail = observer(() => {
         </View>
         <View style={styles.cart}>
           <View style={styles.counterContainer}>
-            <TouchableOpacity
-              style={{
-                height: 45,
-                width: 45,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              onPress={handleMinusClick}>
-              <Icons iconName={'minus'} />
-            </TouchableOpacity>
-            <View style={styles.iconCounter}>
-              <Text style={styles.countNumber}>{count}</Text>
-            </View>
-            <TouchableOpacity
-              style={{
-                height: 45,
-                width: 45,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              onPress={handlePlusClick}>
-              <Icons
-                iconName={'plus'}
-                fill={EStyleSheet.value('$lightGreen')}
-              />
-            </TouchableOpacity>
+            <ProductCounter
+              handleMinusClick={handleMinusClick}
+              handlePlusClick={handlePlusClick}
+              count={count}
+            />
           </View>
           <Text style={styles.price}>
             ${(parseFloat(product.price) * count).toFixed(2)}
           </Text>
         </View>
         <Accordion title={'Product Detail'}>{product.details}</Accordion>
-        <Accordion title={'Nutritions'}>{product.details}</Accordion>
-        <Accordion title={'Review'}>{product.details}</Accordion>
+        <Accordion
+          title={'Nutritions'}
+          informationItem={
+            <View
+              style={{
+                padding: 4,
+                backgroundColor: '#EBEBEB',
+                height: 22,
+                borderRadius: 5,
+              }}>
+              <Text style={{color: EStyleSheet.value('$gray'), fontSize: 9}}>
+                100gr
+              </Text>
+            </View>
+          }>
+          {product.details}
+        </Accordion>
+        <Accordion
+          title={'Review'}
+          informationItem={
+            <View>
+              <Stars />
+            </View>
+          }>
+          {product.details}
+        </Accordion>
         <View style={styles.buttomView}>
           <Btn
             onClick={handleAddToBacket}
@@ -172,6 +167,12 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  goBackBtn: {
+    height: 20,
+    width: 20,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+  },
   imageStyle: {
     height: 200,
     marginTop: 28,
@@ -198,16 +199,6 @@ const styles = EStyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  iconCounter: {
-    borderWidth: 1,
-    borderRadius: 17,
-    borderColor: '$lineColor',
-    height: 45,
-    width: 45,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  countNumber: {color: '$mainDark', fontFamily: '$mediumFont', fontSize: 18},
   price: {color: '$mainDark', fontFamily: '$mediumFont', fontSize: 24},
   buttomView: {
     paddingBottom: 60,
