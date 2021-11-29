@@ -1,5 +1,11 @@
 import React from 'react';
-import {Image, StatusBar, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {
+  Image,
+  StatusBar,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Modal from 'react-native-modal';
 import Btn from '../../components/Btn';
@@ -10,16 +16,21 @@ const OrderFailed = ({showModal, handleHide}) => {
   return (
     <Modal isVisible={showModal} statusBarTranslucent={false}>
       <View style={styles.container}>
-        <View style={{width: '100%', justifyContent: 'flex-start'}}>
-          <TouchableWithoutFeedback onPress={handleHide}>
+        <TouchableWithoutFeedback onPress={handleHide}>
+          <View
+            style={{
+              alignSelf: 'flex-start',
+              padding: 5,
+              alignItems: 'flex-start',
+            }}>
             <Icons
               iconName={'XIcon'}
               fill={EStyleSheet.value('$mainDark')}
               iconHeight={16}
               iconWidth={16}
             />
-          </TouchableWithoutFeedback>
-        </View>
+          </View>
+        </TouchableWithoutFeedback>
         <Image source={image} style={{width: 220, height: 220}} />
         <Text style={styles.mainText}>Oops! Order Failed</Text>
         <Text style={styles.infoText}>Something went tembly wrong.</Text>

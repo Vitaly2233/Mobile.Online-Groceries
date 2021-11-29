@@ -4,6 +4,7 @@ import {Controller, useForm} from 'react-hook-form';
 import {View, Text} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Btn from './Btn';
+import Icons from './icons/Icons';
 import Input from './Input';
 
 const SignUpForm = () => {
@@ -25,7 +26,10 @@ const SignUpForm = () => {
   };
 
   return (
-    <View>
+    <View style={styles.wrapper}>
+      <View style={styles.carrotContainer}>
+        <Icons iconName={'colorCarrot'} />
+      </View>
       <Text style={styles.categoryText}>Sign Up</Text>
       <Text style={styles.transparentText}>
         Enter yout credentials to continue
@@ -38,6 +42,7 @@ const SignUpForm = () => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+            containerStyles={styles.inputContainer}
             onChange={onChange}
             onBlur={onBlur}
             value={value}
@@ -56,6 +61,7 @@ const SignUpForm = () => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+            containerStyles={styles.inputContainer}
             onChange={onChange}
             onBlur={onBlur}
             value={value}
@@ -79,13 +85,16 @@ const SignUpForm = () => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+            containerStyles={styles.inputContainer}
             onChange={onChange}
             onBlur={onBlur}
             value={value}
             placeholder={''}
             iconName={'hide'}
             secureTextEntry={secureEntry}
-            iconPress={() => setSecureEntry(!secureEntry)}
+            onIconPress={() => {
+              setSecureEntry(!secureEntry);
+            }}
           />
         )}
         name="password"
@@ -113,6 +122,13 @@ const SignUpForm = () => {
 };
 
 const styles = EStyleSheet.create({
+  wrapper: {
+    paddingVertical: 55,
+  },
+  carrotContainer: {
+    marginBottom: 80,
+    alignSelf: 'center',
+  },
   categoryText: {
     color: '$mainDark',
     fontSize: 26,
@@ -129,6 +145,10 @@ const styles = EStyleSheet.create({
     color: '$gray',
     fontSize: 16,
     fontFamily: '$mediumFont',
+  },
+  inputContainer: {
+    borderBottomWidth: 1,
+    borderColor: '$lineColor',
   },
   forgotText: {
     fontSize: 14,

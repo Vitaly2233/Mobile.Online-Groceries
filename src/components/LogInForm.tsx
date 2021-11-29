@@ -9,6 +9,7 @@ import {observer} from 'mobx-react';
 
 import {login} from '../actions/user';
 import {User} from '../models';
+import Icons from './icons/Icons';
 
 const LogInForm = observer(() => {
   const navigation = useNavigation();
@@ -30,7 +31,10 @@ const LogInForm = observer(() => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.wrapper}>
+      <View style={styles.carrotContainer}>
+        <Icons iconName={'colorCarrot'} />
+      </View>
       <Text style={styles.categoryText}>Loging</Text>
       <Text style={styles.transparentText}>Enter your emails and password</Text>
       <Text style={styles.inputName}>Email</Text>
@@ -42,6 +46,7 @@ const LogInForm = observer(() => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+            containerStyles={styles.inputContainer}
             onChangeText={onChange}
             onBlur={onBlur}
             value={value}
@@ -65,12 +70,16 @@ const LogInForm = observer(() => {
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input
+            containerStyles={styles.inputContainer}
             onChangeText={onChange}
             onBlur={onBlur}
             value={value}
             placeholder={''}
             iconName={'hide'}
             secureTextEntry={secureEntry}
+            onIconPress={() => {
+              setSecureEntry(!secureEntry);
+            }}
           />
         )}
         name="password"
@@ -87,7 +96,10 @@ const LogInForm = observer(() => {
           onPress={() => {
             navigation.navigate('SignUp');
           }}
-          style={[styles.bottomText, styles.lightText]}>
+          style={[
+            styles.bottomText,
+            {color: EStyleSheet.value('$lightGreen')},
+          ]}>
           Signup
         </Text>
       </View>
@@ -96,11 +108,22 @@ const LogInForm = observer(() => {
 });
 
 const styles = EStyleSheet.create({
+  wrapper: {
+    paddingVertical: 55,
+  },
+  carrotContainer: {
+    marginBottom: 80,
+    alignSelf: 'center',
+  },
   inputName: {
     marginTop: 30,
     color: '$gray',
     fontSize: 16,
     fontFamily: '$mediumFont',
+  },
+  inputContainer: {
+    borderBottomWidth: 1,
+    borderColor: '$lineColor',
   },
   categoryText: {
     color: '$mainDark',
@@ -131,9 +154,6 @@ const styles = EStyleSheet.create({
     fontSize: 14,
     fontFamily: '$mediumFont',
     color: '$mainDark',
-  },
-  lightText: {
-    color: '$lightGreen',
   },
 });
 

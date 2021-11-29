@@ -1,19 +1,17 @@
-import CheckBox from '@react-native-community/checkbox';
 import {useNavigation} from '@react-navigation/core';
 import {observer} from 'mobx-react-lite';
 import React, {useState} from 'react';
 import {Text, View} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Btn from '../../components/Btn';
+import CheckBox from '../../components/CheckBox';
 import {useStore} from '../../store';
 
 const Filters = observer(() => {
   const navigation = useNavigation();
   const {productStore} = useStore();
   const categories = productStore.categories;
-  const [filterChecked, setFilterChecked] = useState(
-    productStore.filters.categories,
-  );
+  const [filterChecked, setFilterChecked] = useState<any[]>(productStore.filters.categories);
 
   const handleClick = () => {
     productStore.setCategoryFilter(filterChecked);
@@ -22,7 +20,7 @@ const Filters = observer(() => {
 
   const onCheckboxChange = (val, category) => {
     const categoryId = category._id;
-    if (val) {
+    if (!val) {
       setFilterChecked([...filterChecked, categoryId]);
     } else {
       const filtered = filterChecked.filter(item => item !== categoryId);
@@ -36,8 +34,8 @@ const Filters = observer(() => {
     return (
       <View style={styles.optionsContainer} key={categoryId}>
         <CheckBox
-          value={condition ?? false}
-          onValueChange={val => {
+          isChecked={condition ?? false}
+          onPress={val => {
             onCheckboxChange(val, category);
           }}
         />
@@ -62,7 +60,7 @@ const Filters = observer(() => {
 });
 
 const styles = EStyleSheet.create({
-  container: {flex: 1, backgroundColor: '#fff', paddingBottom: 25},
+  container: {flex: 1, backgroundColor: '$backgroundColor', paddingBottom: 25},
   content: {
     flex: 1,
     paddingTop: 30,
@@ -82,12 +80,14 @@ const styles = EStyleSheet.create({
     marginVertical: 15,
   },
   optionText: {
+    marginLeft: 10,
     color: '$mainDark',
     fontFamily: '$mediumFont',
     fontSize: 16,
   },
   btnContainer: {
-    paddingHorizontal: '$paddingTabs',
+    width: 'auto',
+    marginHorizontal: '$paddingTabs',
   },
 });
 

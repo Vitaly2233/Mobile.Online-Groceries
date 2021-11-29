@@ -59,6 +59,8 @@ class ProductStore {
     const filters = this.filters;
     let res = this.products;
 
+    if (!filters.searchInput && filters.categories.length === 0) return res;
+
     if (filters.searchInput) {
       res = res.filter(product =>
         product.name.toLowerCase().includes(filters.searchInput.toLowerCase()),

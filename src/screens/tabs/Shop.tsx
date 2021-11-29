@@ -1,7 +1,14 @@
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+import {useNavigation} from '@react-navigation/core';
 import {observer} from 'mobx-react-lite';
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {getAllProducts} from '../../actions/products';
 import BannerList from '../../components/Lists/BannerList';
@@ -11,6 +18,7 @@ import Logo from '../../components/Logo';
 import Search from '../../components/Search';
 
 const Shop = observer(() => {
+  const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchProducts = async () => {
@@ -26,9 +34,16 @@ const Shop = observer(() => {
     <View style={[styles.wrapper, {paddingBottom: useBottomTabBarHeight()}]}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Logo />
-        <View style={{paddingHorizontal: EStyleSheet.value('$paddingTabs')}}>
-          <Search />
-        </View>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('Explore');
+          }}>
+          <View
+            pointerEvents="none"
+            style={{paddingHorizontal: EStyleSheet.value('$paddingTabs')}}>
+            <Search />
+          </View>
+        </Pressable>
 
         {!isLoading ? (
           <>

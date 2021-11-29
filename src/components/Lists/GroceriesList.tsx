@@ -1,14 +1,26 @@
+import {useNavigation} from '@react-navigation/core';
 import React from 'react';
-import {FlatList, Image, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { useStore } from '../../store';
-import { RandomColor } from '../../util/RandomColor';
+import {useStore} from '../../store';
+import {RandomColor} from '../../util/RandomColor';
 
 const GroceriesList = () => {
+  const navigation = useNavigation();
   const {productStore} = useStore();
 
+  const handleSeeAllPress = () => {
+    navigation.navigate('Explore');
+  };
+
   const renderItem = (data: any) => {
-    const {background, border} = RandomColor();
+    const {background} = RandomColor();
     const picture = productStore.pictures['6194f4cd2f7df08c18014fc0'];
 
     const grocery = data.item;
@@ -33,7 +45,19 @@ const GroceriesList = () => {
 
   return (
     <View style={{marginTop: 30}}>
-      <Text style={styles.categoryText}>Groceries</Text>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        <Text style={styles.categoryText}>Groceries</Text>
+        <TouchableWithoutFeedback onPress={handleSeeAllPress}>
+          <View style={styles.touchableContainer}>
+            <Text style={styles.seeAllLink}>See all</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -70,6 +94,18 @@ const styles = EStyleSheet.create({
     fontSize: 20,
     fontFamily: '$regularFont',
     color: '$mainDark',
+  },
+  touchableContainer: {
+    alignItems: 'center',
+    paddingVertical: 5,
+    paddingLeft: 5,
+    justifyContent: 'center',
+    marginRight: '$paddingTabs'
+  },
+  seeAllLink: {
+    color: '$lightGreen',
+    fontSize: 16,
+    fontFamily: '$mediumFont',
   },
 });
 

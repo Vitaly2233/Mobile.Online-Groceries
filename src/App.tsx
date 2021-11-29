@@ -88,7 +88,6 @@ const App = observer(() => {
               name={'Beverages'}
               component={Beverages}
               options={{
-                // presentation: 'modal',
                 animation: 'slide_from_bottom',
                 headerShadowVisible: false,
                 headerShown: true,

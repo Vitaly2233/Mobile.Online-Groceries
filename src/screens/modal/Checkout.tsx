@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/core';
 import React from 'react';
-import {StatusBar, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {Text, TouchableWithoutFeedback, View} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Modal from 'react-native-modal';
 import {computeProducts} from '../../actions/products';
@@ -50,21 +50,12 @@ const Checkout = ({isVisible = false, handleHide}) => {
             <View style={styles.titleContainer}>
               <Text style={styles.title}>Checkout</Text>
               <TouchableWithoutFeedback onPress={handleHide}>
-                <View
-                  style={{
-                    backgroundColor: 'red',
-                    width: 40,
-                    height: 40,
-                    justifyContent: 'center',
-                    alignItems: 'flex-end',
-                  }}>
-                  <Icons
-                    iconName={'XIcon'}
-                    fill={EStyleSheet.value('$mainDark')}
-                    iconHeight={16}
-                    iconWidth={16}
-                  />
-                </View>
+                <Icons
+                  iconName={'XIcon'}
+                  fill={EStyleSheet.value('$mainDark')}
+                  iconHeight={16}
+                  iconWidth={16}
+                />
               </TouchableWithoutFeedback>
             </View>
             <View style={styles.paddingWrapper}>

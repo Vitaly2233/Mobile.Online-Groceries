@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/core';
+import {useNavigation, useRoute} from '@react-navigation/core';
 import {observer} from 'mobx-react-lite';
 import React, {useEffect, useState} from 'react';
 import {
@@ -21,7 +21,7 @@ const Explore = observer(() => {
   const {productStore} = useStore();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [isProductShown, setIsProductShown] = useState(false);
+  const [isProductShown, setIsProductShown] = useState<boolean>();
 
   const productData = productStore.filterProducts;
 
@@ -53,11 +53,18 @@ const Explore = observer(() => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-        <View style={styles.topBar}>
+        <View
+          style={[
+            styles.topBar,
+            isProductShown
+              ? {marginLeft: EStyleSheet.value('$paddingTabs') * 2}
+              : {},
+          ]}>
           <Search
             onFocus={handleOnFocus}
             onChangeText={handleTextChange}
             autoFocus={false}
+            containerStyles={[isProductShown ? {marginLeft: 20} : {}]}
           />
           {isProductShown ? (
             <TouchableOpacity onPress={() => navigation.navigate('Filters')}>
@@ -88,7 +95,7 @@ const styles = EStyleSheet.create({
   },
   topBar: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
   },
 });
